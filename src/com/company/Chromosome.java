@@ -12,6 +12,11 @@ class Chromosome {
     Chromosome(int chromosomeId){
         this.chromosomeId = chromosomeId;
     }
+    
+    Chromosome(String binaryPhenotype){
+    	this.binaryPhenotype=binaryPhenotype;
+    	this.phenotype=Integer.parseInt(binaryPhenotype);
+    }
 
     int getPhenotype(){
         return phenotype;
