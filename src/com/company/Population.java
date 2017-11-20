@@ -88,7 +88,7 @@ public class Population {
     	newChromosomeBinaryPhenotype2=ch2BinaryPhenotype.replaceAll(ch2Substring, ch1Substring);
     	
     	AfterCorssChromosomes.add(new Chromosome(newChromosomeBinaryPhenotype1));
-    	AfterCorssChromosomes.add(new Chromosome(newChromosomeBinaryPhenotype1));
+    	AfterCorssChromosomes.add(new Chromosome(newChromosomeBinaryPhenotype2));
     	
     	//System.out.println("1 chromosome po mutacji: "+newChromosomeBinaryPhenotype1);
     	//System.out.println("2gi chromosome po mutacji: "+newChromosomeBinaryPhenotype2);
