@@ -7,7 +7,7 @@ class Chromosome {
     private int adaptationEval;
     private int phenotype;
     private String binaryPhenotype;
-    private float selectionProbability;
+    private double selectionProbability;
 
     Chromosome(int chromosomeId){
         this.chromosomeId = chromosomeId;
@@ -16,6 +16,15 @@ class Chromosome {
     Chromosome(String binaryPhenotype){
     	this.binaryPhenotype=binaryPhenotype;
     	this.phenotype=Integer.parseInt(binaryPhenotype, 2);
+    }
+
+    Chromosome(Chromosome chromosome)
+    {
+        this.chromosomeId = chromosome.getChromosomeId();
+        this.setAdaptationEval(chromosome.getAdaptationEval());
+        this.phenotype = chromosome.getPhenotype();
+        this.binaryPhenotype = chromosome.getBinaryPhenotype();
+        this.setSelectionProbability(chromosome.getSelectionProbability());
     }
 
     // Getters
@@ -28,7 +37,7 @@ class Chromosome {
     public int getAdaptationEval() {
         return adaptationEval;
     }
-    public float getSelectionProbability() {
+    public double getSelectionProbability() {
         return selectionProbability;
     }
     public int getChromosomeId() { return  chromosomeId; }
@@ -36,11 +45,11 @@ class Chromosome {
     public void setAdaptationEval(int adaptationEval) {
         this.adaptationEval = adaptationEval;
     }
-    public void setSelectionProbability(float selectionProbability) { this.selectionProbability = selectionProbability; }
+    public void setSelectionProbability(double selectionProbability) { this.selectionProbability = selectionProbability; }
 
     public void evaluateAdaptation()
     {
-        adaptationEval = 2*(phenotype^2+1);
+        adaptationEval = (int)(2*(Math.pow(phenotype,2)+1));
     }
 
     public void generateRandomPhenotype()

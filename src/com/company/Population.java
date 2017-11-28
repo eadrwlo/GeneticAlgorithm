@@ -26,11 +26,12 @@ public class Population {
     Population(ArrayList<Chromosome> e)
 	{
     		chromosomes = new ArrayList<>(e.size());
-    		chromosomes = e;
+    		//chromosomes = e;
     		populationSize = chromosomes.size();
     		for(int i=0;i<e.size();i++)
     		{
-    			chromosomes.get(i).evaluateAdaptation();
+				chromosomes.add(new Chromosome(e.get(i)));
+    			//chromosomes.get(i).evaluateAdaptation();
     		}
     }
 
@@ -48,7 +49,7 @@ public class Population {
 
         for (Chromosome i: chromosomes)
         {
-           i.setSelectionProbability(i.getAdaptationEval() / (float)amount );
+           i.setSelectionProbability(i.getAdaptationEval() / (double)amount );
         }
     }
     
@@ -155,6 +156,9 @@ public class Population {
 		for (Chromosome chromo : chromosomes )
 		{
 			currentChromoSelectionProbalility = (int)(chromo.getSelectionProbability() * 10000);
+			System.out.println("totalSelectionProbalility + currentChromoSelectionProbalility: " + (totalSelectionProbalility + currentChromoSelectionProbalility));
+			int upperLimit = totalSelectionProbalility + currentChromoSelectionProbalility;
+			upperLimit = (upperLimit > 10000) ? 1000 : upperLimit;
 			//System.out.println("Rand w selectAndGet" + currentChromoSelectionProbalility);
 			if (chromo.getChromosomeId() == 0)
 			{
@@ -165,12 +169,15 @@ public class Population {
 			}
 			else
 			{
-				for (int i = totalSelectionProbalility; i < totalSelectionProbalility + currentChromoSelectionProbalility; i++ )
+
+				for (int i = totalSelectionProbalility; i < upperLimit; i++ )
 				{
 					adaptationDistributionTable[i] = (byte)chromo.getChromosomeId();
 				}
 			}
 			totalSelectionProbalility += currentChromoSelectionProbalility;
+
+			//System.out.println(totalSelectionProbalility);
 		}
 		Random random = new Random();
 		int a;
@@ -180,7 +187,7 @@ public class Population {
 		for (int i = 0; i < this.getPopulationSize(); i++)
 		{
 			a = random.nextInt(10000);
-			System.out.println("Rand w selectAndGet" + a + adaptationDistributionTable[a]);
+			//System.out.println("Rand w selectAndGet" + a + adaptationDistributionTable[a]);
 			newBestAdaptedChromosomesList.add((chromosomes.get(adaptationDistributionTable[a])));
 		}
 
