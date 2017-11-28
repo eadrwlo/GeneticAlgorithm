@@ -46,7 +46,7 @@ class Chromosome {
         this.adaptationEval = adaptationEval;
     }
     public void setSelectionProbability(double selectionProbability) { this.selectionProbability = selectionProbability; }
-
+    public void setChromosomeId(int chromosomeId){ this.chromosomeId = chromosomeId; }
     public void evaluateAdaptation()
     {
         adaptationEval = (int)(2*(Math.pow(phenotype,2)+1));
@@ -57,6 +57,14 @@ class Chromosome {
         Random r = new Random();
         phenotype = r.nextInt(127);
         binaryPhenotype = Integer.toBinaryString(phenotype);
+        if (binaryPhenotype.length() < 7 )
+        {
+            int prefix = 7 - binaryPhenotype.length();
+            String zeros = "";
+            for (int k = 0; k < prefix; k++)
+                zeros += "0";
+            binaryPhenotype = zeros + binaryPhenotype;
+        }
     }
 
 

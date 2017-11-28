@@ -25,14 +25,13 @@ public class Population {
     
     Population(ArrayList<Chromosome> e)
 	{
-    		chromosomes = new ArrayList<>(e.size());
-    		//chromosomes = e;
-    		populationSize = chromosomes.size();
-    		for(int i=0;i<e.size();i++)
-    		{
-				chromosomes.add(new Chromosome(e.get(i)));
-    			//chromosomes.get(i).evaluateAdaptation();
-    		}
+		chromosomes = new ArrayList<>(e.size());
+		this.populationSize = e.size();
+		for(int i=0;i<e.size();i++)
+		{
+			chromosomes.add(new Chromosome(e.get(i)));
+			chromosomes.get(i).evaluateAdaptation();
+		}
     }
 
     public ArrayList<Chromosome> getChromosomes() {
@@ -53,11 +52,11 @@ public class Population {
         }
     }
     
-    public ArrayList<Chromosome> crossChromosome(Population e)
+    public ArrayList<Chromosome> crossChromosome()
 	{
-    	ArrayList<Chromosome> chromosomes=e.getChromosomes();
-		ArrayList<Chromosome> AfterCorssChromosomes=new ArrayList<>(e.getPopulationSize());
-    	Random i=new Random();
+		System.out.println("Rozmiar w cross na poczatku: " + getPopulationSize());
+		ArrayList<Chromosome> afterCrossChromosomes = new ArrayList<>(getPopulationSize());
+    	Random i = new Random();
     	int maxLocus;
     	int locus;
     	String ch1Substring;
@@ -66,86 +65,45 @@ public class Population {
     	String newChromosomeBinaryPhenotype1;
     	String newChromosomeBinaryPhenotype2;
     	
+    	for(int j = 0; j < getPopulationSize() / 2 ; j++) {
 
-    	for(int j=0;j<e.getPopulationSize()/2;j++) {
-    	Chromosome ch1 = chromosomes.get(i.nextInt(e.getPopulationSize()));
-    	Chromosome ch2 = chromosomes.get(i.nextInt(e.getPopulationSize()));
-    	
-    	String ch1BinaryPhenotype=ch1.getBinaryPhenotype();
-    	String ch2BinaryPhenotype=ch2.getBinaryPhenotype();
-    	
-    	//System.out.println("Wylosowany "+j+" ch "+ch1BinaryPhenotype);
-    	//System.out.println("Wylosowany "+j+1+" ch "+ch2BinaryPhenotype);
-    	
-    	if(ch1BinaryPhenotype.length()>ch2BinaryPhenotype.length()) {
-    		maxLocus=ch2BinaryPhenotype.length();
-    	}else
-    		maxLocus=ch1BinaryPhenotype.length();
-    	
-    	locus=i.nextInt(maxLocus);
-    	
-    	//System.out.println("Locus: "+locus);
-    	
-    	ch1Substring=ch1BinaryPhenotype.substring(locus);
-    	ch2Substring=ch2BinaryPhenotype.substring(locus);
-    	
-    	//System.out.println("CH1 substrgin: "+ch1Substring);
-    	//System.out.println("CH2 substrgin: "+ch2Substring);
-    	
-    	newChromosomeBinaryPhenotype1=ch1BinaryPhenotype.replaceAll(ch1Substring, ch2Substring);
-    	newChromosomeBinaryPhenotype2=ch2BinaryPhenotype.replaceAll(ch2Substring, ch1Substring);
-    	
-    	AfterCorssChromosomes.add(new Chromosome(newChromosomeBinaryPhenotype1));
-    	AfterCorssChromosomes.add(new Chromosome(newChromosomeBinaryPhenotype2));
-    	
-    	//System.out.println("1 chromosome po mutacji: "+newChromosomeBinaryPhenotype1);
-    	//System.out.println("2gi chromosome po mutacji: "+newChromosomeBinaryPhenotype2);
+    		Random randomInt = new Random();
+    		int crossProbability = randomInt.nextInt(10);
+
+			Chromosome ch1 = chromosomes.get(i.nextInt(getPopulationSize()));
+			Chromosome ch2 = chromosomes.get(i.nextInt(getPopulationSize()));
+
+			String ch1BinaryPhenotype = newChromosomeBinaryPhenotype1 = ch1.getBinaryPhenotype();
+			String ch2BinaryPhenotype = newChromosomeBinaryPhenotype2 = ch2.getBinaryPhenotype();
+			if (crossProbability > 5)
+			{
+				System.out.println("Wylosowany "+j+" ch "+ch1BinaryPhenotype);
+				System.out.println("Wylosowany "+j+1+" ch "+ch2BinaryPhenotype);
+				locus = i.nextInt(7);
+				System.out.println("Locus: "+locus);
+
+				ch1Substring = ch1BinaryPhenotype.substring(locus);
+				ch2Substring = ch2BinaryPhenotype.substring(locus);
+
+				System.out.println("CH1 substrgin: "+ch1Substring);
+				System.out.println("CH2 substrgin: "+ch2Substring);
+
+				newChromosomeBinaryPhenotype1 = ch1BinaryPhenotype.replaceAll(ch1Substring, ch2Substring);
+				newChromosomeBinaryPhenotype2 = ch2BinaryPhenotype.replaceAll(ch2Substring, ch1Substring);
+			}
+
+			afterCrossChromosomes.add(new Chromosome(newChromosomeBinaryPhenotype1));
+			afterCrossChromosomes.add(new Chromosome(newChromosomeBinaryPhenotype2));
+
+			System.out.println("1 chromosome po mutacji: "+newChromosomeBinaryPhenotype1);
+			System.out.println("2gi chromosome po mutacji: "+newChromosomeBinaryPhenotype2);
     	}
-
-    	for(int j=0;j<e.getPopulationSize()/2;j++)
-    	{
-			Chromosome ch1 = chromosomes.get(i.nextInt(e.getPopulationSize()));
-			Chromosome ch2 = chromosomes.get(i.nextInt(e.getPopulationSize()));
-
-			String ch1BinaryPhenotype=ch1.getBinaryPhenotype();
-			String ch2BinaryPhenotype=ch2.getBinaryPhenotype();
-
-			//System.out.println("Wylosowany "+j+" ch "+ch1BinaryPhenotype);
-			//System.out.println("Wylosowany "+j+1+" ch "+ch2BinaryPhenotype);
-
-			if(ch1BinaryPhenotype.length()>ch2BinaryPhenotype.length())
-			{
-				maxLocus=ch2BinaryPhenotype.length();
-			}
-			else
-			{
-				maxLocus = ch1BinaryPhenotype.length();
-			}
-
-			locus=i.nextInt(maxLocus);
-
-			//System.out.println("Locus: "+locus);
-
-			ch1Substring=ch1BinaryPhenotype.substring(locus);
-			ch2Substring=ch2BinaryPhenotype.substring(locus);
-
-			//System.out.println("CH1 substrgin: "+ch1Substring);
-			//System.out.println("CH2 substrgin: "+ch2Substring);
-
-			newChromosomeBinaryPhenotype1=ch1BinaryPhenotype.replaceAll(ch1Substring, ch2Substring);
-
-			newChromosomeBinaryPhenotype2=ch2BinaryPhenotype.replaceAll(ch2Substring, ch1Substring);
-
-			AfterCorssChromosomes.add(new Chromosome(newChromosomeBinaryPhenotype1));
-
-			// Tu chyba powinien byc wrzucany newChromosomeBinaryPhenotype2?? Jest nie uzywany. Zmnien jak cos.
-			AfterCorssChromosomes.add(new Chromosome(newChromosomeBinaryPhenotype1));
-
-			//System.out.println("1 chromosome po mutacji: "+newChromosomeBinaryPhenotype1);
-			//System.out.println("2gi chromosome po mutacji: "+newChromosomeBinaryPhenotype2);
+		for (int n = 0; n < afterCrossChromosomes.size(); n++)
+		{
+			afterCrossChromosomes.get(n).setChromosomeId(n);
 		}
-
-    	return AfterCorssChromosomes;
+		System.out.println("Rozmiar w crossCg=hrmo: " + afterCrossChromosomes.size());
+		return afterCrossChromosomes;
     }
 
     public ArrayList<Chromosome> selectAndGetBestAdaptedChromosomes()
@@ -156,7 +114,7 @@ public class Population {
 		for (Chromosome chromo : chromosomes )
 		{
 			currentChromoSelectionProbalility = (int)(chromo.getSelectionProbability() * 10000);
-			System.out.println("totalSelectionProbalility + currentChromoSelectionProbalility: " + (totalSelectionProbalility + currentChromoSelectionProbalility));
+			//System.out.println("totalSelectionProbalility + currentChromoSelectionProbalility: " + (totalSelectionProbalility + currentChromoSelectionProbalility));
 			int upperLimit = totalSelectionProbalility + currentChromoSelectionProbalility;
 			upperLimit = (upperLimit > 10000) ? 1000 : upperLimit;
 			//System.out.println("Rand w selectAndGet" + currentChromoSelectionProbalility);
@@ -188,11 +146,9 @@ public class Population {
 		{
 			a = random.nextInt(10000);
 			//System.out.println("Rand w selectAndGet" + a + adaptationDistributionTable[a]);
-			newBestAdaptedChromosomesList.add((chromosomes.get(adaptationDistributionTable[a])));
+			newBestAdaptedChromosomesList.add(new Chromosome(chromosomes.get(adaptationDistributionTable[a])));
 		}
-
+		System.out.println("Rozmiar w selectAndGetBestAdaptedChromosomes: " + newBestAdaptedChromosomesList.size());
 		return newBestAdaptedChromosomesList;
-
-
 	}
 }
